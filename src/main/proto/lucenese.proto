@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package vms;
+
+import "google/protobuf/empty.proto";
+
+service LuceneSEService {
+    rpc SearchText(stream SomeMessage) returns (stream SomeResult) {}
+}
+
+message SomeMessage {
+    int32             uniqueid          = 1;
+    string            searchtext        = 2;
+}
+
+message SomeResult {
+    int32       uniqueid                = 1; 
+    int32       iscontain               = 2;
+}
