@@ -1,13 +1,3 @@
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-
-import io.grpc.stub.ClientCallStreamObserver;
-import io.grpc.stub.StreamObserver;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
@@ -17,10 +7,12 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
 
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
-
-import vms.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LuceneTextIndexer {
 
@@ -52,29 +44,6 @@ public class LuceneTextIndexer {
         System.out.println("Results :: " + hits.totalHits);
 
         writer.close();
-    }
-
-    private static StreamObserver<Lucenese.SomeMessage> streamObserver;
-
-    public static void main(String[] args) throws Exception {
-        ManagedChannel channel = ManagedChannelBuilder.forTarget("localhost:56000").build();
-        LuceneSEServiceGrpc.LuceneSEServiceStub blockingStub = LuceneSEServiceGrpc.newStub(channel);
-        streamObserver = blockingStub.searchText(new StreamObserver<Lucenese.SomeResult>() {
-            @Override
-            public void onNext(Lucenese.SomeResult value) {
-
-            }
-
-            @Override
-            public void onError(Throwable t) {
-
-            }
-
-            @Override
-            public void onCompleted() {
-
-            }
-        });
     }
 
     private static IndexWriter createWriter() throws IOException {
